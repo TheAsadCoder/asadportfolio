@@ -4,14 +4,12 @@ import { FiSun, FiMoon } from 'react-icons/fi'
 
 const Navbar = () => {
   const [isDark, setIsDark] = useState(() => {
-    // Check initial theme from localStorage or system preference
     const savedTheme = localStorage.getItem('theme')
     return savedTheme ? savedTheme === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches
   })
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
 
-  // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20)
@@ -20,7 +18,6 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Handle theme changes
   useEffect(() => {
     if (isDark) {
       document.documentElement.classList.add('dark')
@@ -31,7 +28,6 @@ const Navbar = () => {
     }
   }, [isDark])
 
-  // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (isOpen && !event.target.closest('.mobile-menu') && !event.target.closest('.menu-button')) {
@@ -43,10 +39,18 @@ const Navbar = () => {
     return () => document.removeEventListener('click', handleClickOutside)
   }, [isOpen])
 
-  // Close menu when route changes
   useEffect(() => {
     setIsOpen(false)
   }, [location])
+
+  const handleLinkClick = () => {
+    setIsOpen(false)
+  }
+
+  const handleThemeToggle = () => {
+    setIsDark(!isDark)
+    setIsOpen(false)
+  }
 
   return (
     <nav className={`fixed w-full z-50 transition-all duration-500 ease-in-out
@@ -55,40 +59,36 @@ const Navbar = () => {
         : 'bg-white/50 backdrop-blur-sm dark:bg-dark-900/50 shadow-sm'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
           <div className="flex-shrink-0">
-            {/* <Link to="/"> */}
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-purple to-primary-pink dark:from-primary-orange dark:to-primary-pink text-transparent bg-clip-text hover:scale-110 transform transition-all duration-300 cursor-pointer animate-gradient">
-                MA
-              </h1>
-            {/* </Link> */}
+            <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-purple to-primary-pink dark:from-primary-orange dark:to-primary-pink text-transparent bg-clip-text hover:scale-110 transform transition-all duration-300 cursor-pointer animate-gradient">
+              MA
+            </h1>
           </div>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-4">
-              <a href='#home' className="nav-link relative text-gray-700 dark:text-[#D6DCE4] px-3 py-2 rounded-md text-sm font-medium hover:text-primary-purple dark:hover:text-primary-orange transition-all duration-300 group">
+              <a href='#home' onClick={handleLinkClick} className="nav-link relative text-gray-700 dark:text-[#D6DCE4] px-3 py-2 rounded-md text-sm font-medium hover:text-primary-purple dark:hover:text-primary-orange transition-all duration-300 group">
                 <span>Home</span>
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-purple to-primary-pink dark:from-primary-orange dark:to-primary-pink group-hover:w-full transition-all duration-300"></span>
               </a>
-              <a href='#about' className="nav-link relative text-gray-700 dark:text-[#D6DCE4] px-3 py-2 rounded-md text-sm font-medium hover:text-primary-purple dark:hover:text-primary-orange transition-all duration-300 group">
+              <a href='#about' onClick={handleLinkClick} className="nav-link relative text-gray-700 dark:text-[#D6DCE4] px-3 py-2 rounded-md text-sm font-medium hover:text-primary-purple dark:hover:text-primary-orange transition-all duration-300 group">
                 <span>About</span>
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-purple to-primary-pink dark:from-primary-orange dark:to-primary-pink group-hover:w-full transition-all duration-300"></span>
               </a>
-              <a href='#project' className="nav-link relative text-gray-700 dark:text-[#D6DCE4] px-3 py-2 rounded-md text-sm font-medium hover:text-primary-purple dark:hover:text-primary-orange transition-all duration-300 group">
+              <a href='#project' onClick={handleLinkClick} className="nav-link relative text-gray-700 dark:text-[#D6DCE4] px-3 py-2 rounded-md text-sm font-medium hover:text-primary-purple dark:hover:text-primary-orange transition-all duration-300 group">
                 <span>Projects</span>
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-purple to-primary-pink dark:from-primary-orange dark:to-primary-pink group-hover:w-full transition-all duration-300"></span>
               </a>
-              <a href='#service' className="nav-link relative text-gray-700 dark:text-[#D6DCE4] px-3 py-2 rounded-md text-sm font-medium hover:text-primary-purple dark:hover:text-primary-orange transition-all duration-300 group">
+              <a href='#service' onClick={handleLinkClick} className="nav-link relative text-gray-700 dark:text-[#D6DCE4] px-3 py-2 rounded-md text-sm font-medium hover:text-primary-purple dark:hover:text-primary-orange transition-all duration-300 group">
                 <span>Services</span>
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-purple to-primary-pink dark:from-primary-orange dark:to-primary-pink group-hover:w-full transition-all duration-300"></span>
               </a>
-              <a href='#contact' className="nav-link relative text-gray-700 dark:text-[#D6DCE4] px-3 py-2 rounded-md text-sm font-medium hover:text-primary-purple dark:hover:text-primary-orange transition-all duration-300 group">
+              <a href='#contact' onClick={handleLinkClick} className="nav-link relative text-gray-700 dark:text-[#D6DCE4] px-3 py-2 rounded-md text-sm font-medium hover:text-primary-purple dark:hover:text-primary-orange transition-all duration-300 group">
                 <span>Contact</span>
                 <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-purple to-primary-pink dark:from-primary-orange dark:to-primary-pink group-hover:w-full transition-all duration-300"></span>
               </a>
               <button
-                onClick={() => setIsDark(!isDark)}
+                onClick={handleThemeToggle}
                 className="p-2 rounded-full bg-gradient-to-r from-primary-purple to-primary-pink dark:from-primary-orange dark:to-primary-pink hover:shadow-lg hover:scale-110 transform transition-all duration-300 ease-in-out animate-gradient"
                 aria-label="Toggle theme"
               >
@@ -100,7 +100,6 @@ const Navbar = () => {
             </div>
           </div>
 
-          {/* Mobile menu button */}
           <div className="md:hidden">
             <button
               onClick={(e) => {
@@ -135,34 +134,33 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile menu */}
       <div 
         className={`mobile-menu ${isOpen ? 'translate-y-0 opacity-100 pointer-events-auto' : '-translate-y-full opacity-0 pointer-events-none'} 
         md:hidden fixed top-16 left-0 w-full bg-white/90 dark:bg-dark-900/90 backdrop-blur-lg transition-all duration-300 ease-in-out transform z-50`}
       >
         <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <Link to="/" className="relative text-gray-700 dark:text-[#D6DCE4] block px-3 py-2 rounded-md text-base font-medium hover:bg-gradient-to-r hover:from-primary-purple/10 hover:to-primary-pink/10 dark:hover:from-primary-orange/10 dark:hover:to-primary-pink/10 transition-all duration-300 group">
+          <a href='#home' onClick={handleLinkClick} className="relative text-gray-700 dark:text-[#D6DCE4] block px-3 py-2 rounded-md text-base font-medium hover:bg-gradient-to-r hover:from-primary-purple/10 hover:to-primary-pink/10 dark:hover:from-primary-orange/10 dark:hover:to-primary-pink/10 transition-all duration-300 group">
             <span>Home</span>
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-purple to-primary-pink dark:from-primary-orange dark:to-primary-pink group-hover:w-full transition-all duration-300"></span>
-          </Link>
-          <Link to="/about" className="relative text-gray-700 dark:text-[#D6DCE4] block px-3 py-2 rounded-md text-base font-medium hover:bg-gradient-to-r hover:from-primary-purple/10 hover:to-primary-pink/10 dark:hover:from-primary-orange/10 dark:hover:to-primary-pink/10 transition-all duration-300 group">
+          </a>
+          <a href='#about' onClick={handleLinkClick} className="relative text-gray-700 dark:text-[#D6DCE4] block px-3 py-2 rounded-md text-base font-medium hover:bg-gradient-to-r hover:from-primary-purple/10 hover:to-primary-pink/10 dark:hover:from-primary-orange/10 dark:hover:to-primary-pink/10 transition-all duration-300 group">
             <span>About</span>
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-purple to-primary-pink dark:from-primary-orange dark:to-primary-pink group-hover:w-full transition-all duration-300"></span>
-          </Link>
-          <Link to="/work" className="relative text-gray-700 dark:text-[#D6DCE4] block px-3 py-2 rounded-md text-base font-medium hover:bg-gradient-to-r hover:from-primary-purple/10 hover:to-primary-pink/10 dark:hover:from-primary-orange/10 dark:hover:to-primary-pink/10 transition-all duration-300 group">
-            <span>Work</span>
+          </a>
+          <a href='#project' onClick={handleLinkClick} className="relative text-gray-700 dark:text-[#D6DCE4] block px-3 py-2 rounded-md text-base font-medium hover:bg-gradient-to-r hover:from-primary-purple/10 hover:to-primary-pink/10 dark:hover:from-primary-orange/10 dark:hover:to-primary-pink/10 transition-all duration-300 group">
+            <span>Projects</span>
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-purple to-primary-pink dark:from-primary-orange dark:to-primary-pink group-hover:w-full transition-all duration-300"></span>
-          </Link>
-          <Link to="/blog" className="relative text-gray-700 dark:text-[#D6DCE4] block px-3 py-2 rounded-md text-base font-medium hover:bg-gradient-to-r hover:from-primary-purple/10 hover:to-primary-pink/10 dark:hover:from-primary-orange/10 dark:hover:to-primary-pink/10 transition-all duration-300 group">
-            <span>Blog</span>
+          </a>
+          <a href='#service' onClick={handleLinkClick} className="relative text-gray-700 dark:text-[#D6DCE4] block px-3 py-2 rounded-md text-base font-medium hover:bg-gradient-to-r hover:from-primary-purple/10 hover:to-primary-pink/10 dark:hover:from-primary-orange/10 dark:hover:to-primary-pink/10 transition-all duration-300 group">
+            <span>Services</span>
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-purple to-primary-pink dark:from-primary-orange dark:to-primary-pink group-hover:w-full transition-all duration-300"></span>
-          </Link>
-          <Link to="/contact" className="relative text-gray-700 dark:text-[#D6DCE4] block px-3 py-2 rounded-md text-base font-medium hover:bg-gradient-to-r hover:from-primary-purple/10 hover:to-primary-pink/10 dark:hover:from-primary-orange/10 dark:hover:to-primary-pink/10 transition-all duration-300 group">
+          </a>
+          <a href='#Contact' onClick={handleLinkClick} className="relative text-gray-700 dark:text-[#D6DCE4] block px-3 py-2 rounded-md text-base font-medium hover:bg-gradient-to-r hover:from-primary-purple/10 hover:to-primary-pink/10 dark:hover:from-primary-orange/10 dark:hover:to-primary-pink/10 transition-all duration-300 group">
             <span>Contact</span>
             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-primary-purple to-primary-pink dark:from-primary-orange dark:to-primary-pink group-hover:w-full transition-all duration-300"></span>
-          </Link>
+          </a>
           <button
-            onClick={() => setIsDark(!isDark)}
+            onClick={handleThemeToggle}
             className="w-full text-left px-3 py-2 text-gray-700 dark:text-[#D6DCE4] hover:bg-gradient-to-r hover:from-primary-purple/20 hover:to-primary-pink/20 dark:hover:from-primary-orange/20 dark:hover:to-primary-pink/20 rounded-md text-base font-medium transition-all duration-300"
           >
             <span className="flex items-center gap-2">
